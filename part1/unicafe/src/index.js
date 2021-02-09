@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
-import Average from "./components/average"
+import Average from "./components/Average"
+import PositiveAverage from "./components/PositiveAverage"
 const App = () => {
   // save clicks of each button to its own state
   const [good, setGood] = useState(0)
@@ -19,16 +20,29 @@ const App = () => {
     setClicks(clicks +1)
     setNeutral(neutral +1)
   }
-  return (
-    <div>
-      <button onClick={handleGood}>Good</button>
-      <button onClick={handleBad}>Bad</button>
-      <button onClick={handleNeutral}>Neutral</button>
-      <p>Good: {good} | Bad:  {bad} | Neutral: {neutral} | All: {clicks} </p>
-      <Average positive={good} negative={bad} total={clicks}/>
-      <averagePositive positive={good} total={clicks}/>
-    </div>
-  )
+  if (clicks === 0) {
+    return (
+      <div>
+        <button onClick={handleGood}>Good</button>
+        <button onClick={handleBad}>Bad</button>
+        <button onClick={handleNeutral}>Neutral</button>
+        <p>Good: {good} | Bad:  {bad} | Neutral: {neutral} | All: {clicks} </p>
+         <p>No given feedback</p>
+      </div>
+    )
+  } else {
+    return (
+      <div>
+        <button onClick={handleGood}>Good</button>
+        <button onClick={handleBad}>Bad</button>
+        <button onClick={handleNeutral}>Neutral</button>
+        <p>Good: {good} | Bad:  {bad} | Neutral: {neutral} | All: {clicks} </p>
+        <Average positive={good} total={clicks} negative={bad}/>
+           <PositiveAverage positive={good} total={clicks}/>
+      </div>
+    )
+  }
+  
 }
 
 ReactDOM.render(<App />, 
