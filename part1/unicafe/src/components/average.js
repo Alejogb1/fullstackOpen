@@ -1,6 +1,7 @@
-const Average = (positive, bad, total) => {
-    const sumAll = positive - bad
-    const average = sumAll/total
+const Average = ({positive, total, negative}) => {
+    //console.log(props.positive, " VS ")
+    let sumAll = positive - negative
+    let average = sumAll/total
     return(<p>{average}</p>)
   }
   
