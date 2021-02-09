@@ -25,8 +25,8 @@ const App = () => {
       <button onClick={handleBad}>Bad</button>
       <button onClick={handleNeutral}>Neutral</button>
       <p>Good: {good} | Bad:  {bad} | Neutral: {neutral} | All: {clicks} </p>
-      <Average/>
-      <averagePositive/>
+      <Average positive={good} negative={bad} total={clicks}/>
+      <averagePositive positive={good} total={clicks}/>
     </div>
   )
 }
