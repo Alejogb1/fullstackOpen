@@ -30,27 +30,65 @@ const App = () => {
     'Premature optimization is the root of all evil.',
     'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.'
   ]
-  const handlerQuote = () => {
-    setSelected(+1)
+  const points = { 0: 0, 1: 0, 2: 0, 3: 0 }
+  
+  const [copy, setCopy] = useState({ 0: 0, 1: 0, 2: 0, 3: 0 })
+
+  console.log(copy)
+
+  const handlerVotes = () => {
+    const pointsCopy = copy
+    pointsCopy[selected] += 1;
+    console.log("previous state", copy[selected])
+    setCopy(pointsCopy)
+    console.log("updated state: ", copy[selected])
   }
+  const handlerQuote = () => {
+    setSelected(selected +1)
+    if (selected >= 5) {
+      setSelected(0)
+      console.log(selected)
+    }
+  }
+
+  function biggestNumberInArray (arr) {
+    // We need to take the values of our object. this will allow to then take the length of our array
+    arr = Object.values(arr)
+    // The largest number at first should be the first element or null for empty array
+    var largest = arr[0] || null;
+    console.log(largest)
+    // Current number, handled by the loop
+    var number = null;
+    for (var i = 0; i < arr.length; i++) {
+        // Update current number
+        number = arr[i];
+
+        // Compares stored largest number with current number, stores the largest one
+        largest = Math.max(largest, number);
+    }
+
+    return largest;
+}
+  console.log(Object.values(copy).length)
   if (clicks === 0) {
     return (
       <div>
         <Button handleBad={handleBad} handleGood={handleGood} handleNeutral={handleNeutral}/>
-        <button onClick={handlerQuote}>Random swe qoute</button>
+        <button onClick={handlerQuote}>Random swe quote</button>
+        <button onClick={handlerVotes}>Vote for this quote</button>
+        <p>This quote has: {copy[selected]} votes</p>
         {anecdotes[selected]}
-        <div style={{marginTop: "50px"}}>
-          <tr> Good: 
-            <td>{good}</td>
-          </tr>
-          <tr> Negative: 
-            <td>{bad}</td>
-          </tr>
-          <tr> Neutral: 
-            <td>{neutral}</td>
-          </tr>
-        </div>
+        <table style={{marginTop: "50px"}}>
+          <tbody>
+            
+            <tr><th>Neutral: </th><td>{neutral}</td></tr>
+            <tr><th>Negative: </th><td>{bad}</td></tr>
+            <tr><th>Positive: </th><td>{good}</td></tr>     
+          </tbody>    
+        </table>
         <p>No given feedback</p>
+        <h3>Most voted quote</h3>
+        
       </div>
     )
   } else {
@@ -58,17 +96,16 @@ const App = () => {
       <div>
         <Button  handleBad={handleBad} handleGood={handleGood} handleNeutral={handleNeutral}/>
         <button onClick={handlerQuote}>Random swe qoute</button>
+        <button onClick={handlerVotes}>Vote for this quote</button>
         {anecdotes[selected]}
         <div style={{marginTop: "50px"}}>
-          <tr> Good: 
-            <td>{good}</td>
-          </tr>
-          <tr> Negative: 
-            <td>{bad}</td>
-          </tr>
-          <tr> Neutral: 
-            <td>{neutral}</td>
-          </tr>
+        <table style={{marginTop: "50px"}}>
+          <tbody>
+            <tr><th>Neutral: </th><td>{neutral}</td></tr>
+            <tr><th>Negative: </th><td>{bad}</td></tr>
+            <tr><th>Positive: </th><td>{good}</td></tr>     
+          </tbody>    
+        </table>
         </div>
         <Average positive={good} total={clicks} negative={bad}/>
            <PositiveAverage positive={good} total={clicks}/>
