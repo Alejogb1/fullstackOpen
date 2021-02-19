@@ -32,17 +32,19 @@ const App = () => {
   ]
   const points = { 0: 0, 1: 0, 2: 0, 3: 0 }
   
-  const [copy, setCopy] = useState({ 0: 0, 1: 0, 2: 0, 3: 0 })
+  const [copy, setCopy] = useState({ 0: 0, 1: 0, 2: 0, 3: 0, 4 : 0, 5 : 0, 6 : 0 })
+  const [votoMasAlto, setVotoMasAlto] = useState(0)
 
-  console.log(copy)
+
 
   const handlerVotes = () => {
-    const pointsCopy = copy
+    const pointsCopy = {...copy}
     pointsCopy[selected] += 1;
     console.log("previous state", copy[selected])
-    setCopy(pointsCopy)
-    console.log("updated state: ", copy[selected])
+    setCopy(pointsCopy);
   }
+
+  console.log("VOTO MAS ALTO: ", biggestNumberInArray(copy))
   const handlerQuote = () => {
     setSelected(selected +1)
     if (selected >= 5) {
@@ -53,23 +55,29 @@ const App = () => {
 
   function biggestNumberInArray (arr) {
     // We need to take the values of our object. this will allow to then take the length of our array
-    arr = Object.values(arr)
     // The largest number at first should be the first element or null for empty array
     var largest = arr[0] || null;
     console.log(largest)
     // Current number, handled by the loop
     var number = null;
-    for (var i = 0; i < arr.length; i++) {
+    let quoteNumber = 0
+    for (var i = 0; i < Object.values(arr).length; i++) {
         // Update current number
         number = arr[i];
 
+        if (number > largest) {
+          quoteNumber = i
+        }
         // Compares stored largest number with current number, stores the largest one
         largest = Math.max(largest, number);
+
     }
 
-    return largest;
+    return [largest, quoteNumber];
 }
-  console.log(Object.values(copy).length)
+var largest = biggestNumberInArray(copy)[0];
+var quoteNumber = biggestNumberInArray(copy)[1];
+
   if (clicks === 0) {
     return (
       <div>
@@ -80,7 +88,6 @@ const App = () => {
         {anecdotes[selected]}
         <table style={{marginTop: "50px"}}>
           <tbody>
-            
             <tr><th>Neutral: </th><td>{neutral}</td></tr>
             <tr><th>Negative: </th><td>{bad}</td></tr>
             <tr><th>Positive: </th><td>{good}</td></tr>     
@@ -88,7 +95,7 @@ const App = () => {
         </table>
         <p>No given feedback</p>
         <h3>Most voted quote</h3>
-        
+         <p>The quote with most votes is: "{anecdotes[quoteNumber]}" with  {largest} votes. </p>
       </div>
     )
   } else {
@@ -108,7 +115,7 @@ const App = () => {
         </table>
         </div>
         <Average positive={good} total={clicks} negative={bad}/>
-           <PositiveAverage positive={good} total={clicks}/>
+        <PositiveAverage positive={good} total={clicks}/>
       </div>
     )
   }
