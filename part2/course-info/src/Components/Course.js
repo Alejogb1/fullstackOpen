@@ -4,6 +4,7 @@ const Course = ({course}) => {
     const Total = ({ course }) => {
   
         const reducer = (accumulator, currentValue) => accumulator + currentValue;
+        
         const array = course.parts.map(item => item.exercises)
 
         const total = array.reduce(reducer)
