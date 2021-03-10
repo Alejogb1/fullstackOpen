@@ -8,15 +8,24 @@ const App = () => {
 
   const [ newName, setNewName ] = useState('')
 
+  const handlerName = (e) => {
+    setNewName(e.target.value) 
+  } 
+  
+  const submitName = (e) => {
+    e.preventDefault()
+    setPersons(persons, [setPersons])
+  }
+
   return (
     <div>
       <h2>Phonebook</h2>
-      <form>
+      <form onSubmit={submitName}>
         <div>
-          name: <input />
+          name: <input onChange={handlerName} />
         </div>
         <div>
-          <button type="submit">add</button>
+          <button type="submit" value="Submit">add</button>
         </div>
       </form>
       <h2>Numbers</h2>
