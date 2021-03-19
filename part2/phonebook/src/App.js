@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import PersonForm from "./components/personForm"
+import PersonForm from "./components/PersonForm"
+import Persons from "./components/Persons"
 const App = () => {
 
 
@@ -8,14 +9,20 @@ const App = () => {
   const [ newName, setNewName ] = useState('')
 
   const [ newNumber, setNewNumber ] = useState(0)
+ 
+  const [filterName, setFilterName] = useState("")
 
+  const handleChangeName = e => setNewName(e.target.value) 
 
-  const handleChangeName = (e) => {
-    setNewName(e.target.value) 
-  } 
-  const handleChangeNumber = (e) => {
-    setNewNumber(e.target.value) 
-  } 
+  const handleChangeNumber = e => setNewNumber(e.target.value) 
+
+  const handleChangeFilter = e => setFilterName(e.target.value)
+  
+
+  const addFilter = (e) => {
+    e.preventDefault()
+    setPersons(persons.filter(person => person.name === filterName))
+  }
 
   const addNote = (e) => {
     e.preventDefault()
@@ -26,35 +33,26 @@ const App = () => {
 
     console.log("lol")
     setPersons(persons.filter(person => person.name !== newName).concat(noteObject)) 
-    
-  /*  
-    for(let i = 0; i < persons.length +1; ) {
-      console.log("person number", i, persons[i])
-      if (persons[i].name === noteObject.name) {
-        alert(`${newName} is already added to phonebook`)
-      }
-      i++
-    }*/
+  
+    persons.forEach(person => (person.name === noteObject.name) && alert(`${newName} is already added to phonebook`))
     setNewName("")
   }
 
 
+
   return (
-    <div>
+    <div className="container">
       <h2>Phonebook</h2>
       <PersonForm addNote={addNote} newName={newName} newNumber={newNumber} handleChangeName={handleChangeName} handleChangeNumber={handleChangeNumber}/>
-   
+      <form onSubmit={addFilter}>
+        <h3>Let's filter by name: <input onChange={handleChangeFilter}/></h3>
+        <div>
+          <button type="submit">Filter</button>
+        </div>
+      </form>
+      
       <h2>Names</h2>
-      {
-        persons.map( person => 
-        
-          <div className="container">
-            <h4>New Note</h4>
-            <p>{person.name}</p>
-            <p>{person.number}</p>
-          </div>
-        )
-      }
+      <Persons persons={persons}/>
     </div>
   )
 }
