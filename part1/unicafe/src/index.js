@@ -60,7 +60,7 @@ const App = () => {
     console.log(largest)
     // Current number, handled by the loop
     var number = null;
-    let quoteNumber = 0
+    let quoteNumber = 0;
     for (var i = 0; i < Object.values(arr).length; i++) {
         // Update current number
         number = arr[i];

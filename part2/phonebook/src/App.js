@@ -1,11 +1,13 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import PersonForm from "./components/PersonForm"
 import Persons from "./components/Persons"
 import Filter from "./components/Filter"
+import axios from "axios"
 const App = () => {
 
+ 
 
-  const [ persons, setPersons ] = useState([{name: "Juan", number: "94234242"}]) 
+  const [ persons, setPersons ] = useState() 
 
   const [ newName, setNewName ] = useState('')
 
@@ -19,6 +21,13 @@ const App = () => {
 
   const handleChangeFilter = e => setFilterName(e.target.value)
   
+  useEffect(() => {
+    axios
+      .get("localhost:3001/db")
+      .then(response => setPersons(response.persons))
+
+  }, [])
+  console.log("render ", persons.length, " persons")  
 
   const addFilter = (e) => {
     e.preventDefault()
