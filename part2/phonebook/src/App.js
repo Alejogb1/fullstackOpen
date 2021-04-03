@@ -23,11 +23,11 @@ const App = () => {
   
   useEffect(() => {
     axios
-      .get("localhost:3001/db")
-      .then(response => setPersons(response.persons))
+      .get("http://localhost:3001/db")
+      .then(response => console.log("RESPONSE: ", response.persons))
 
   }, [])
-  console.log("render ", persons.length, " persons")  
+  console.log("render ", persons, " persons")  
 
   const addFilter = (e) => {
     e.preventDefault()
@@ -56,7 +56,6 @@ const App = () => {
       <PersonForm addNote={addNote} newName={newName} newNumber={newNumber} handleChangeName={handleChangeName} handleChangeNumber={handleChangeNumber}/>
       <Filter addFilter={addFilter} handleChangeFilter={handleChangeFilter}/>
       <h2>Names</h2>
-      <Persons persons={persons}/>
     </div>
   )
 }
