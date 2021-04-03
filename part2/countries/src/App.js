@@ -1,25 +1,29 @@
 import './App.css';
 import React, {useState, useEffect} from "react"
 import axios from "axios"
+import Country from "./Country"
 function App() {
+  const api_key = process.env.REACT_APP_API_KEY
 
   const [countries, setCountries] = useState([])
-
   const [search, setSearch] = useState("")
 
   useEffect(() => {
     console.log('effect')
     axios.get('https://restcountries.eu/rest/v2/all')
       .then(response =>setCountries(response.data.map(country => country)))
+    
   }, [])
-
   const FilteredCountries = countries.filter(country => 
     country.name.trim().toLowerCase().includes(search.trim().toLowerCase())
   )
 
-
   const handleSearch = (e) => setSearch(e.target.value)
   
+
+  const showDetails = (country) => (
+    setSearch(country.name.toLowerCase())
+  )
   return (
     <div className="App">
       <p>Find countries: <input type="text" value={search} onChange={handleSearch}/></p>
@@ -30,23 +34,13 @@ function App() {
             <div>{FilteredCountries.map(country => (
               <div key={country.name}>
                   {country.name}
+                  <button onClick={() => showDetails(country)}>show</button>
               </div>
             ))}</div>
             ): (
               <div>
                 {FilteredCountries.map(country => (
-                  <div key={country.name}>
-                      <h1>{country.name}</h1>
-                      <p>capital:  {country.capital}</p>
-                      <p>population:  {country.population}</p>
-                      <h4>languages</h4>
-                      <ul style={{maxWidth:"50px", margin:"0 auto"}}>
-                        {country.languages.map(language => (
-                          <li>{language.name}</li>
-                        ))}
-                      </ul>
-                      <img src={country.flag} style={{width:"150px"}}/>
-                  </div>
+                    <Country key={country.area} country={country}/>
                 ))}
               </div>
               )}
