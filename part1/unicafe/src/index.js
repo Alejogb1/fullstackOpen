@@ -75,8 +75,9 @@ const App = () => {
 
     return [largest, quoteNumber];
 }
-var largest = biggestNumberInArray(copy)[0];
-var quoteNumber = biggestNumberInArray(copy)[1];
+
+// Use array destructuring
+var   [largest, quoteNumber] = biggestNumberInArray(copy)
 
   if (clicks === 0) {
     return (
