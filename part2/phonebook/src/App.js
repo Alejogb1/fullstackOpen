@@ -3,11 +3,12 @@ import PersonForm from "./components/PersonForm"
 import Persons from "./components/Persons"
 import Filter from "./components/Filter"
 import axios from "axios"
+import fetchData from "./services/fetchData"
 const App = () => {
 
  
 
-  const [ persons, setPersons ] = useState() 
+  const [ persons, setPersons ] = useState([]) 
 
   const [ newName, setNewName ] = useState('')
 
@@ -22,12 +23,13 @@ const App = () => {
   const handleChangeFilter = e => setFilterName(e.target.value)
   
   useEffect(() => {
-    axios
-      .get("http://localhost:3001/db")
-      .then(response => console.log("RESPONSE: ", response.persons))
-
+      fetchData
+      .getData()
+      .then(response => setPersons(response.data.persons))
   }, [])
-  console.log("render ", persons, " persons")  
+
+  
+  console.log("Persons array: ", persons)
 
   const addFilter = (e) => {
     e.preventDefault()
@@ -56,6 +58,7 @@ const App = () => {
       <PersonForm addNote={addNote} newName={newName} newNumber={newNumber} handleChangeName={handleChangeName} handleChangeNumber={handleChangeNumber}/>
       <Filter addFilter={addFilter} handleChangeFilter={handleChangeFilter}/>
       <h2>Names</h2>
+      <Persons persons={persons}/>
     </div>
   )
 }
